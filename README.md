@@ -16,4 +16,6 @@
 <a href="https://github.com/koudle"><img style="border-radius: 30px" src="https://avatars2.githubusercontent.com/u/13464904?s=460&v=4" title="小德-kurt" width="60"/></a> | [小德-kurt](https://github.com/koudle) | <a href="https://github.com/Realank"><img style="border-radius: 30px" src="https://avatars1.githubusercontent.com/u/11557944?s=460&v=4" title="刘彦博" width="60"/></a> | [刘彦博](https://github.com/Realank)
 <a href="https://github.com/Vadaski"><img style="border-radius: 30px" src="https://avatars1.githubusercontent.com/u/23734225?s=460&v=4" title="XinLei" width="60"/></a> | [XinLei](https://github.com/Vadaski) ||
 
-请从这份详细的 [翻译协作流程指南文档](./WorkFlow.md) 开始。
+## 参与本项目
+
+请从这份详细的 [协作流程指南文档](./WorkFlow.md) 开始。
