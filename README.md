@@ -3,6 +3,7 @@
 
 ## 目录
 
+- `./tips` 小技巧
 - `./articles` 原创文章
 - `./translations` 翻译文章
 
