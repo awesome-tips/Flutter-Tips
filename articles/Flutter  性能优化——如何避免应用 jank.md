@@ -8,13 +8,13 @@
 ## 什么时候会产生 jank？
 我见过许多开发者在刚上手了 Flutter 之后，尝试开发了一些应用，然而并没有取得比较好的性能表现。例如在长列表加载的时候可能会出现明显卡顿的情况（当然这并不常见）。当你对这种情况没有头绪的时候，可能会误以为是 Flutter 的渲染还不够高效，然而大概率是你的 **姿势不对**。我们来看一个小例子。
 
-![](https://user-gold-cdn.xitu.io/2019/10/20/16de9af67e0cc723?w=415&h=894&f=gif&s=99566)
+![](../pic/jank.gif)
 
 在屏幕中心有一个一直旋转的 FlutterLogo，当我们点击按钮后，开始计算 0 + 1 + ... +1000000000。这里可以很明显的感受到明显的卡顿。为什么会出现这种情况呢？
 
 ### Flutter Rendering Pipeline
 
-![](https://user-gold-cdn.xitu.io/2019/10/20/16de9be46676ae0c?w=690&h=394&f=png&s=42028)
+![](../pic/graphics_pipline.png)
 
 Flutter 由 GPU 的 vsync 信号驱动，每一次信号都会走一个完整的 pipeline（我们现在并不需要关心整个流程的具体细节），而通常我们开发者会接触到的部分就是使用 dart 代码，经过 build -> layout -> paint 最后生成一个 layer，整个过程都在一个 UI 线程中完成。Flutter 需要在每秒60次，也就是 16.67 ms 通过 vsync 进行一次 pipline。
 
@@ -22,11 +22,11 @@ Flutter 由 GPU 的 vsync 信号驱动，每一次信号都会走一个完整的
 
 熟悉 dart 的同学肯定了解 event loop 机制了，通过异步处理我们可以把一个方法在执行过程中暂停，首先保证我们的同步方法能够按时执行（这也是为什么 setState 中只能进行同步操作的缘故）。而整个 pipline 是一次同步的任务，所以异步任务就会暂停，等待 pipline 执行结束，这样就不会因为进行耗时操作卡住 UI。
 
-![](https://user-gold-cdn.xitu.io/2019/10/21/16dea0d9dcd6c91e?w=1607&h=405&f=png&s=38831)
+![](../pic/async_func.png)
 
 但是单线程毕竟也有它的局限，但是当我们有一些比较重的同步处理任务，例如解析大量 json（这是一个同步操作），或是处理图片这样的操作，很可能处理时间会超过一个 vsync 时间，这样 Flutter 就不能及时将 layer 送到 GPU 线程，导致应用 jank。
 
-![](https://user-gold-cdn.xitu.io/2019/10/21/16dea139da9a579c?w=1721&h=449&f=png&s=36808)
+![](../pic/sync_func.png)
 
 在上面这个例子中，我们通过计算 0 + 1 + ... +1000000000 来模拟一个耗时的 json 解析操作，由于它是一个同步的行为，所以它的计算不会被暂停。我们这个复杂的计算任务耗时超过了一次 sync 时间，所以产生了明显的 jank。
 
@@ -162,7 +162,7 @@ class SpawnMessageProtocol{
 在这之中，我们传递 data 也经历了 Network -> Main Isolate -> New Isolate (result) -> Main Isolate，多出来两次 copy 的操作。如果我们是在 Main 线程之外的 isolate 下载的数据，那么就可以直接在该线程进行解析，最后只需要传回 Main Isolate 即可，省下了一次 copy 操作。（Network -> New Isolate (result)-> Main Isolate） 
 
 ### 空间
-Isolate 实际上是比较重的，每当我们创建出来一个新的 Isolate 至少需要 2mb 左右的空间甚至更多，取决于我们具体 isolate 的用途。
+Isolate 实际上是比较重的，每当我们创建出来一个新的 Isolate 至少需要 2MB 左右的空间甚至更多，取决于我们具体 isolate 的用途。
 
 #### OOM 风险
 我们可能会使用 message 传递 data 或 file。而实际上我们传递的 message 是经历了一次 copy 过程的，这其实就可能存在着 OOM 的风险。
@@ -211,11 +211,11 @@ Future<LoadBalancer> loadBalancer = LoadBalancer.create(2, IsolateRunner.spawn);
 
 `LoadBalancer` 经过测试，它会在第一次使用其 isolate 的时候初始化线程池。
 
-![](https://user-gold-cdn.xitu.io/2019/10/21/16ded380ee06d8a4?w=1136&h=459&f=png&s=90995)
+![](../pic/load_balancer.png)
 
 当应用打开后，即使我们在顶层函数中调用了 LoadBalancer.create，但是还是只会有一个 Isolate。
 
-![](https://user-gold-cdn.xitu.io/2019/10/21/16ded4fc1992f25a?w=1804&h=825&f=png&s=182245)
+![](../pic/load_balancer_init.png)
 
 当我们调用 run 方法时，才真正创建出了实际的 isolate。
 
