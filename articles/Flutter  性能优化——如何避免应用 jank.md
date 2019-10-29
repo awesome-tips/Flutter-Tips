@@ -16,11 +16,11 @@
 
 ![](../pic/graphics_pipline.png)
 
-Flutter 由 GPU 的 vsync 信号驱动，每一次信号都会走一个完整的 pipeline（我们现在并不需要关心整个流程的具体细节），而通常我们开发者会接触到的部分就是使用 dart 代码，经过 build -> layout -> paint 最后生成一个 layer，整个过程都在一个 UI 线程中完成。Flutter 需要在每秒60次，也就是 16.67 ms 通过 vsync 进行一次 pipline。
+Flutter 由 GPU 的 vsync 信号驱动，每一次信号都会走一个完整的 pipeline（我们现在并不需要关心整个流程的具体细节），而通常我们开发者会接触到的部分就是使用 dart 代码，经过 build -> layout -> paint 最后生成一个 layer，整个过程都在 dart UI 线程中完成。Flutter 需要在每秒60次，也就是 16.67 ms 通过 vsync 进行一次 pipline，而整个过程是一次**同步处理**。如果我们的整个 pipline 耗时超过 16.67 ms，就会出现掉帧。
 
 在 Android 中我们是不能在 主线程（UI线程）中进行耗时操作的，如果做一些比较繁重的操作，比如网络请求、数据库操作等相关操作，就会导致 UI 线程卡住，触发 ANR。所以我们需要把这些操作放在子线程去做，通过 handler/looper/message queue 三板斧把结果传给主线程。而 dart 天生是单线程模式，为什么我们能够轻松的做这些任务，而不需要另开一个线程呢？
 
-熟悉 dart 的同学肯定了解 event loop 机制了，通过异步处理我们可以把一个方法在执行过程中暂停，首先保证我们的同步方法能够按时执行（这也是为什么 setState 中只能进行同步操作的缘故）。而整个 pipline 是一次同步的任务，所以异步任务就会暂停，等待 pipline 执行结束，这样就不会因为进行耗时操作卡住 UI。
+熟悉 dart 的同学肯定了解 event loop 机制了，通过异步处理我们可以把一个耗时方法延迟执行，首先保证我们的同步方法能够按时执行（这也是为什么 setState 中只能进行同步操作的缘故）。而整个 pipline 是一次同步的任务，所以异步任务就会等待 pipline 执行结束再执行，这样就不会因为进行耗时操作卡住 UI。
 
 ![](../pic/async_func.png)
 
@@ -68,7 +68,7 @@ static void _methodRunAnotherIsolate(dynamic message) {
     }
   }
 ```
-这里假设先有一个需要在其他 isolate 中执行的方法，入参是一个 SendPort。需要注意的是,这里的方法**只能是顶层方法或静态方法**，所以我们这里使用了 static 修饰，并让其变成一个私有方法("_")。它的返回值也只能是 void，你可能会问，那我们如何获得结果呢？
+这里假设先有一个需要在其他 isolate 中执行的方法，入参是一个 SendPort。需要注意的是,这里的方法**只能是顶层方法或静态方法**，所以我们这里使用了 static 修饰，并让其变成一个私有方法 `_`。它的返回值也只能是 void，你可能会问，那我们如何获得结果呢？
 
 还记得我们刚才创建的 ReceivePort 吗。是的，现在我们就需要监听这个 ReceivePort 来获得 sendPort 传递的 message。
 
