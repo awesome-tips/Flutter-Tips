@@ -6,6 +6,7 @@
 - `./tips` 小技巧
 - `./articles` 原创文章
 - `./translations` 翻译文章
+- `./pic` 图片资源
 
 ## 成员
 
