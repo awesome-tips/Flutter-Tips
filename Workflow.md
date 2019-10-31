@@ -40,8 +40,10 @@
 
 > `[翻译完成] 路径/文件名.md（请复制完整路径名，如 dart.cn/src/docs/***.md）`
 
-1. PR Message 内容格式：
+3. PR Message 内容格式：
 
 > 完成[翻译 / 原创 / Tips etc.] 文件名.md
 >
 > 完成 Issue #Issue编号
+
+4. 图片资源请统一存放在 `./pic` 文件夹中，并使用相对路径进行引用
