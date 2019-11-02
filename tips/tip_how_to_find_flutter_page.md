@@ -6,4 +6,4 @@
 
 前文讲到的技巧，基于一个假设，假设这里有一个滚动列表可供你进行尝试。如果是一个不含可滚动列表的 Flutter 界面，我们如何判断呢。Flutter 的实现机制告诉我们，Flutter 只会有一层 Native 的“画布”，因此可以通过 FLEX、Lookin、Reveal 等工具确定页面上所有元素均绘制在一层 FlutterView 上。
 
-![](tip_how_to_find_flutter_page_01.png)
+![](../pic/tip_how_to_find_flutter_page_01.png)
