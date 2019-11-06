@@ -100,7 +100,7 @@ abstract class BuildContext {
 我们可以看到 BuildContext 其实是一个抽象类，但是每次 build 函数传进来的是什么呢。我们来看看构建视图的时候到底发生了什么。
 
 ### Flutter 如何构建视图
-在 Flutter 中，Everything is Widget，我们通过构造函数嵌套 Widget 来编写 UI 界面。实际上，Widget 并不是真正要显示在屏幕上的东西，只是一个配置信息，它永远是 immutable 的，并且可以在多处重复使用。那真正显示在屏幕上的视图树是什么呢？Element Tree！
+在 Flutter 中，Everything is Widget，我们通过构造函数嵌套 Widget 来编写 UI 界面。实际上，Widget 并不是真正要显示在屏幕上的东西，只是一个配置信息，它永远是 immutable 的，并且可以在多处重复使用。那真正持有“屏幕上的视图”/“UI控件”树是是什么呢？Element tree！
 
 那我们来看一下，在构建视图的时候究竟发生了什么。这里以 Stateless Widget 为例。
 ``` dart
