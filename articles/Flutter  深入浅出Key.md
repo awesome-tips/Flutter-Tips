@@ -179,7 +179,7 @@ class _ScreenState extends State<Screen> {
 
 在Column这一层级，padding 部分的 runtimeType 并没有改变，且不存在 Key。然后再比较下一个层级。由于内部的 StatefulContainer 存在 key，且现在的层级在 padding 内部，该层级没有多子 Widget。runtimeType 返回 flase，Flutter 的将会认为这个 Element 需要被替换。然后重新生成一个新的 Element 对象装载到 Element 树上替换掉之前的 Element。第二个 Widget 同理。
 
-所以为了解决这个问题，我们需要将 key 放到 Row 的 children 这一层级。
+所以为了解决这个问题，我们需要将 key 放到 Column 的 children 这一层级。
 
 ``` dart
 ···
@@ -294,11 +294,11 @@ GlobalKey 使用了一个静态常量 Map 来保存它对应的 Element。
 
 ```dart
 return TodoItem(
-    key: ValueKey(todo.task),
-    todo: todo,
-    onDismissed: (direction){
-        _removeTodo(context, todo);
-    },
+  key: ValueKey(todo.task),
+  todo: todo,
+  onDismissed: (direction){
+      _removeTodo(context, todo);
+  },
 );
 ```
 ### ObjectKey
