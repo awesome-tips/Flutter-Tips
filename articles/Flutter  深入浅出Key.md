@@ -66,8 +66,9 @@ class _ScreenState extends State<Screen> {
 
 这里在屏幕中心展示了两个 StatelessContainer 小部件，当我们点击 floatingActionButton 时，将会执行 switchWidget 并交换它们的顺序。
 
-![](https://user-gold-cdn.xitu.io/2019/4/2/169dc296b2953c80?w=302&h=650&f=gif&s=26315)
+![](../pic/change_color_01.png)
 看上去并没有什么问题，交换操作被正确执行了。现在我们做一点小小的改动，将这个 StatelessContainer 升级为 StatefulContainer。
+
 ``` dart
 class StatefulContainer extends StatefulWidget {
   StatefulContainer({Key key}) : super(key: key);
@@ -92,7 +93,7 @@ class _StatefulContainerState extends State<StatefulContainer> {
 
 现在我们还是使用刚才一样的布局，只不过把 StatelessContainer 替换成 StatefulContainer，看看会发生什么。
 
-![](https://user-gold-cdn.xitu.io/2019/4/2/169dc31037ced6ad?w=302&h=650&f=gif&s=29913)
+![](../pic/change_color_02.png)
 
 这时，无论我们怎样点击，都再也没有办法交换这两个Container的顺序了，而 switchWidget 确实是被执行了的。
 
@@ -170,7 +171,7 @@ class _ScreenState extends State<Screen> {
 
 在这个例子中，我们将两个带 key 的 StatefulContainer 包裹上 Padding 组件，然后点击交换按钮，会发生下面这件奇妙的事情。
 
-![](https://user-gold-cdn.xitu.io/2019/4/2/169dc88ec16784c2?w=303&h=651&f=gif&s=44869)
+![](../pic/change_color_03.png)
 
 两个 Widget 的 Element 并不是交换顺序，而是被重新创建了。
 
@@ -362,7 +363,7 @@ class _ScreenState extends State<Screen> {
 ```
 这里我们通过定义了一个 GlobalKey<SwitcherScreenState> 并传递给 SwitcherScreen。然后我们便可以通过这个 key 拿到它所绑定的 SwitcherState 并在外部调用 changeState 改变状态了。
 
-![](https://user-gold-cdn.xitu.io/2019/4/2/169dd36744b8be7e?w=301&h=648&f=gif&s=32028)
+![](../pic/switcher.png)
 
 ## 参考资料
 - [何时使用密钥 - Flutter小部件 101 第四集](https://www.youtube.com/watch?v=kn0EOS-ZiIc&feature=youtu.be)
