@@ -1,0 +1,148 @@
+在Flutter中，号称一切皆Widget，手势是Widget，动画是Widget，UI更是Widget，今天我们就来说说Widget里比较特殊的一个，Container。
+
+### 1. 参考文献
+
+Container初用起来很简单，但是里面的逻辑又有些复杂，我也不敢说完全吃透，所以本文还是以总结网上各种文章为主，再加上自己的理解，如果有不对的地方，请一定指出
+
+[Flutter快速上车之Widget](https://juejin.im/post/5b8ce76f51882542c0626887)
+
+[Container class](https://api.flutter.dev/flutter/widgets/Container-class.html)
+
+[Layouts in Flutter](https://flutter.dev/docs/development/ui/layout)
+
+[Dealing with box constraints](https://flutter.dev/docs/development/ui/layout/box-constraints)
+
+[Flutter — Container Cheat Sheet](https://medium.com/jlouage/container-de5b0d3ad184)
+
+[Widgets: Container](https://flutterdoc.com/widgets-container-d8eee21ad2f4)
+
+[What is a Container in Flutter?](https://flutteracademy.com/posts/what-is-a-container-in-flutter/)
+
+[Container Widget with example Flutter Tutorial](https://www.youtube.com/watch?v=wj1ZGQ-Jc04)
+
+[Container Widget In Flutter](https://www.youtube.com/watch?v=4KVCaP69GV8)
+
+[Understanding Flutter Layout (Box)Constraints](https://proandroiddev.com/understanding-flutter-layout-box-constraints-292cc0d5e807)
+
+### 2. 介绍
+在Flutter中，所有的功能都被分散成单一功能的Widget，比如居中有Center，边框有Padding，文字是Text，手势是GestureDetector，他们各自维护一个功能，但是我们商业App的UI都很精美，如果要实现一个很好的布局，需要嵌套非常多的布局Widget，所以Container应运而生：
+
+***A convenience widget that combines common painting, positioning, and sizing widgets.***
+
+官方文档一语道破了Container复杂的原因，它是一个便利部件，融合了绘图、定位和尺寸部件，据我所知，它可以设置大小，背景颜色，边框，圆角，阴影，渐变。而且大小可以有很多种情况，时而依赖于父部件，时而依赖于子部件，时而依赖于自己，所以我们稍后会重点说一说Container的布局（尺寸规则，宽高）。
+
+### 3. Widget渲染流程
+
+![](../pic/container_layout-tree.png)
+
+Flutter是树状渲染结构，首先从根结点开始渲染，从上到下传递约束，直到最终的叶子节点(没有子节点了)，然后叶子节点根据约束确定自身大小，然后将大小返回给上级结点，然后上一级根据叶子节点的尺寸，决定自己的大小，再返回上一级，最终根节点确定了大小。之后，根结点逐级往下摆放子节点的位置（根据子节点及子节点兄弟节点的大小和偏移量）。
+
+### 4. Container渲染流程
+
+根据官网的介绍，Container会首先使用设置的padding来围绕子部件，然后对padding的大小添加额外的约束(如果非空)，然后Container被外部的空白区域（margin）包围。在绘制过程中，Container首先应用变换(transform)，然后绘制装饰(decoration)来填充区域，接着绘制子部件，最后绘制前景装饰(foregroundDecoration)，同时填充该区域。
+
+decoration和foregroundDecoration是填充配置，前者是在子部件之下，后者是子部件之上，可以设置填充颜色，边框，填充形状，阴影，渐变色，背景图片等。
+
+如果Container的约束是有限制的，那么没有子部件的Container会尝试尽可能大，如果Container的约束是没有限制的（unbounded），它就会尽可能小。
+
+有子部件的Container，根据子部件确定自己的大小。
+
+### 5. 有无限制约束
+
+到底什么是有限制约束和无限制约束呢，各种部件又都是哪种约束呢？
+
+在Flutter中，Widget由底层的RenderBox渲染盒渲染，父组件向渲染盒提供约束条件，然后渲染盒用这些约束调整自己的尺寸，约束(Constraint)由最大和最小的宽/高组成，尺寸(Size)由特定的宽/高组成。
+
+![](../pic/container_layout-constraints.png)
+
+通常来说，有三种处理约束的盒子：
+- 尽可能大：Center和ListView等
+- 和子部件一样大：Transform和Opacity等
+- 特定大小：Image和Text等
+- 特殊情况：Row和Column由其给定的约束决定，Container由其构造函数的参数决定
+
+但约束有时会变得紧凑，意思是它没有留给渲染盒子自行决定尺寸的余地（例如最大宽度和最小宽度相等，那允许的宽度是个固定值），例如App这个Widget，它的约束被设置为固定的应用程序内容大小（也就是整个屏幕）。而在Flutter中，很多的widget，尤其是只能有一个子部件的widget，会传递自己的约束到子部件。也就是说，如果你在App根渲染树里嵌套了一系列widget，他们将会因为紧凑的约束，一级级地贴着。
+
+但是有些widget会使约束宽松，意思是最大的约束保留，但是最小的约束移除了，比如Center。
+
+#### 5.1 无限制约束
+
+- 在某些情况下，赋给widget的约束是无限制(unbounded)的，或者说是无限(infinite)的。也就是说，最大宽度和最大高度，都是double.INFINITY。
+- 一个尝试尽可能大的widget，遇到无限制约束的时候，是不会起作用的，因为它不知道到底该有多大，在debug模式下，就会抛出异常。
+- 最常见的拥有无限制约束的情况，就是嵌入在弹性盒子里面，比如Row，Column或者可以滚动的区域（ListView或者其他ScrollView子类）。
+
+需要指出的是，ListView会在其交叉方向扩张到父部件边界，例如一个纵向滚动的列表，在横向会尽量和父部件一样宽。
+当你在横向滚动列表里，嵌入一个纵向滚动列表的时候，纵向列表会尽可能宽，也就是无限宽，因为横向列表是无尽宽的，这就会异常。
+
+另外，弹性盒子（Row和Column）在有限制和无限制约束的情况下，表现出来的行为也不同。
+- 在有限制的约束时，他们会在其方向上尽可能大。
+- 在无限制约束时，他们会在其方向上适应他们子组件（包住子组件）。这种情况下，你不能在弹性盒子里用Expanded，因为这是将无法确定部件大小。
+
+### 6. Container布局（尺寸规则）
+
+因为Container集合了其他部件的功能，所以它的布局有些复杂，简而言之，按照顺序，Container会：
+
+- 遵循对齐规则
+- 为子部件调整自身大小
+- 遵循宽高和约束
+- 然后Container尝试尽可能小。
+
+#### 6.1 来看看官方文档的解释（这个解释看不懂就算了，有点啰嗦）：
+
+- 如果Container没有子部件，没有宽高，没有约束，并且父部件提供了无限制约束(unbounded constraints)，Container会尽可能小。
+- 如果Container没有子部件，没有对齐规则，但是提供了高度、宽度或者约束，那么Container会在遵循宽、高、约束和父部件约束的情况下，尽可能小。
+- 如果Container没有子部件，没有宽高，没有约束，没有对齐，但是父部件提供了有限制约束，那么Container会扩张以适应（fit）父部件约束
+- 如果Container有一个对齐规则，并且父部件提供了无限制约束，那么Container会尝试调整自己来包围子部件
+- 如果Container有一个对齐规则，而且父部件提供了有限制约束，那么Container会尝试扩张以适应（fit）父部件，然后根据对齐方式，将子部件置于其内
+- 另外，Container有子部件，但是Container没有宽高、约束、对齐规则，那么Container会传递父部件的约束到其子部件，然后调整自身来匹配子部件。
+- margin和padding也会影响布局，decoration会隐性增加padding(比如设置border)。
+- 默认是尽可能大
+
+#### 6.2 我们来总结一下：
+
+| maxWidth | maxHeight | 约束 | 有无子组件 | 布局规则
+|----|----|----|----|----|
+|有值|有值|有限制|无|尽可能大|
+|有值|无值|高度无限制，宽度有限制|无|高度尽可能小，宽度尽可能大|
+|无值|有值|高度有限制，宽度无限制|无|高度尽可能大，宽度尽可能小|
+|无值|无值|无限制|无|尽可能小|
+|都行|都行|都行|有|在满足约束的前提下尽可能小|
+
+
+#### 6.3 例子
+
+没有子组件，有约束，尽可能大↓
+![没有子组件，有约束，尽可能大](../pic/container_layout-bigger.png)
+
+没有子组件，父组件约束最大宽度是屏幕宽度，最大高度是无限，自己的约束最小宽度是100，最小高度是100，则高度尽可能小到100，宽度尽可能大到屏幕宽度↓
+
+![](../pic/container_layout-wider.png)
+
+父组件最大约束是屏幕宽高，自己是固定宽度100，则宽度是100，高度尽可能大到屏幕高度↓
+
+![](../pic/container_layout-higher.png)
+
+自己没有设置约束，有子组件，所以自己包住子组件↓
+
+![](../pic/container_layout-smaller.png)
+
+自己设置固定高度100，宽度没有约束，有子组件，则高度为100，宽度包住子组件↓
+
+![](../pic/container_layout-fixed_height_narrower.png)
+
+有子组件，自己的高度是固定100，宽度设置为无限，则高度为100，宽度是父组件的约束屏幕宽度↓
+![](../pic/container_layout-fixed_height_wider.png)
+有子组件，设置最小宽高为无限，则大小为屏幕大小↓
+
+![](../pic/container_layout-force_wider.png)
+
+
+
+### 7. 总结
+
+Container应该是Flutter中最灵活的布局widget，大家一定要善用Container，用巧妙的方式处理布局，否则可能会让代码可读性变差，难以维护
+
+
+
+
+
