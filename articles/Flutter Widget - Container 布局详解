@@ -4,7 +4,7 @@
 
 *Container 初用起来很简单，但是里面的逻辑又有些复杂，我也不敢说完全吃透，所以本文还是以总结网上各种文章为主，再加上自己的理解，如果有不对的地方，请一定指出*
 
-在 Flutter 中，所有的功能都被分散成单一功能的 Widget，比如居中有Center，边框有 Padding，文字是 Text，手势是 GestureDetector，他们各自维护一个功能，但是我们商业 App 的 UI 都很精美，如果要实现一个很好的布局，需要嵌套非常多的布局 Widget，所以 Container 应运而生：
+在 Flutter 中，所有的功能都被分散成单一功能的 Widget，比如居中有 Center，边框有 Padding，文字是 Text，手势是 GestureDetector，他们各自维护一个功能，但是我们商业 App 的 UI 都很精美，如果要实现一个很好的布局，需要嵌套非常多的布局 Widget，所以 Container 应运而生：
 
 > A convenience widget that combines common painting, positioning, and sizing widgets.
 
