@@ -14,7 +14,7 @@
 
 ![](../pic/container_layout-tree.png)
 
-Flutter是树状渲染结构，首先从根结点开始渲染，从上到下传递约束，直到最终的叶子节点(没有子节点了)，然后叶子节点根据约束确定自身大小，然后将大小返回给上级结点，然后上一级根据叶子节点的尺寸，决定自己的大小，再返回上一级，最终根节点确定了大小。之后，根结点逐级往下摆放子节点的位置（根据子节点及子节点兄弟节点的大小和偏移量）。
+Flutter 是树状渲染结构，首先从根结点开始渲染，从上到下传递约束，直到最终的叶子节点(没有子节点了)，然后叶子节点根据约束确定自身大小，然后将大小返回给上级结点，然后上一级根据叶子节点的尺寸，决定自己的大小，再返回上一级，最终根节点确定了大小。之后，根结点逐级往下摆放子节点的位置（根据子节点及子节点兄弟节点的大小和偏移量）。
 
 ### 3. Container渲染流程
 
@@ -22,7 +22,7 @@ Flutter是树状渲染结构，首先从根结点开始渲染，从上到下传�
 
 decoration 和 foregroundDecoration 是填充配置，前者是在子部件之下，后者是子部件之上，可以设置填充颜色，边框，填充形状，阴影，渐变色，背景图片等。
 
-如果 Container 的约束是有限制的，那么没有子部件的 Container 会尝试尽可能大，如果Container的约束是没有限制的（unbounded），它就会尽可能小。
+如果 Container 的约束是有限制的，那么没有子部件的 Container 会尝试尽可能大，如果 Container 的约束是没有限制的（unbounded），它就会尽可能小。
 
 有子部件的 Container，根据子部件确定自己的大小。
 
@@ -74,7 +74,7 @@ decoration 和 foregroundDecoration 是填充配置，前者是在子部件之�
 - 如果 Container 有一个对齐规则，并且父部件提供了无限制约束，那么 Container 会尝试调整自己来包围子部件
 - 如果 Container 有一个对齐规则，而且父部件提供了有限制约束，那么 Container 会尝试扩张以适应（fit）父部件，然后根据对齐方式，将子部件置于其内
 - 另外，Container 有子部件，但是 Container 没有宽高、约束、对齐规则，那么 Container 会传递父部件的约束到其子部件，然后调整自身来匹配子部件。
-- margin 和 padding 也会影响布局，decoration 会隐性增加 padding（比如设置border）。
+- margin 和 padding 也会影响布局，decoration 会隐性增加 padding（比如设置 border）。
 - 默认是尽可能大
 
 #### 5.2 我们来总结一下：
@@ -121,7 +121,7 @@ Container 应该是 Flutter 中最灵活的布局 widget，大家一定要善用
 
 ### 7. 参考文献
 
-[Flutter快速上车之Widget](https://juejin.im/post/5b8ce76f51882542c0626887)
+[Flutter 快速上车之 Widget](https://juejin.im/post/5b8ce76f51882542c0626887)
 
 [Container class](https://api.flutter.dev/flutter/widgets/Container-class.html)
 
