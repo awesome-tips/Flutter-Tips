@@ -27,7 +27,7 @@ description: 将 Flutter 作为 library 集成到现有的 Android 或 iOS 应�
 
 ### 集成到 Android 应用
 
-{% include app-figure.md image="development/add-to-app/android-overview.gif" alt="Add-to-app steps on Android" %}
+{% include app-figure.md image="docs_development_add-to-app_index_01.gif" alt="Add-to-app steps on Android" %}
 
 - 在 Gradle 脚本中添加一个自动构建并引入 Flutter 模块的 Flutter SDK 钩子。
   
@@ -55,7 +55,7 @@ API 用于启动并持续地为挂载
 
 ### 集成到 iOS 应用
 
-{% include app-figure.md image="development/add-to-app/ios-overview.gif" alt="Add-to-app steps on iOS" %}
+{% include app-figure.md image="docs_development_add-to-app_index_02.gif" alt="Add-to-app steps on iOS" %}
 
 - 在 Xcode 的 Build Phase 以及 CocoaPods 中，添加一个自动构建并引入 Flutter 模块的 Flutter SDK 钩子。
   
