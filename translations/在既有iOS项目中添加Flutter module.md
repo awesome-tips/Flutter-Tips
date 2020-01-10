@@ -232,7 +232,7 @@ General > Frameworks, Libraries, and Embedded Content 下，
 @import UIKit;
 @import Flutter;
 
-@interface AppDelegate : FlutterAppDelegate // More on the FlutterAppDelegate below.
+@interface AppDelegate : FlutterAppDelegate // 以下有关于 FlutterAppDelegate 的更多信息
 @property (nonatomic,strong) FlutterEngine *flutterEngine;
 @end
 ```
@@ -251,7 +251,7 @@ General > Frameworks, Libraries, and Embedded Content 下，
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *)launchOptions {
   self.flutterEngine = [[FlutterEngine alloc] initWithName:@"my flutter engine"];
-  // Runs the default Dart entrypoint with a default Flutter route.
+  // 使用默认 Flutter 路由运行默认 Dart 入口
   [self.flutterEngine run];
   [GeneratedPluginRegistrant registerWithRegistry:self.flutterEngine];
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
@@ -269,14 +269,14 @@ General > Frameworks, Libraries, and Embedded Content 下，
 
 import UIKit
 import Flutter
-import FlutterPluginRegistrant // Used to connect plugins.
+import FlutterPluginRegistrant // 用于连接 plugins
 
 @UIApplicationMain
-class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
+class AppDelegate: FlutterAppDelegate { // FlutterAppDelegate 有更多信息
   lazy var flutterEngine = FlutterEngine(name: "my flutter engine")
 
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    // Runs the default Dart entrypoint with a default Flutter route.
+    // 使用默认 Flutter 路由运行默认 Dart 入口
     flutterEngine.run();
     GeneratedPluginRegistrant.register(with: self.flutterEngine);
     return super.application(application, didFinishLaunchingWithOptions: launchOptions);
@@ -301,7 +301,7 @@ class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Make a button to call the showFlutter function when pressed.
+    // 制作一个按钮，当点击的时候调用 showFlutter 方法
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:self
                action:@selector(showFlutter)
@@ -334,7 +334,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // Make a button to call the showFlutter function when pressed.
+    // 制作一个按钮，当点击的时候调用 showFlutter 方法
     let button = UIButton(type:UIButton.ButtonType.custom)
     button.addTarget(self, action: #selector(showFlutter), for: .touchUpInside)
     button.setTitle("Show Flutter!", for: UIControl.State.normal)
@@ -454,7 +454,7 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id>*)
     return [_lifeCycleDelegate application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
-// Returns the key window's rootViewController, if it's a FlutterViewController.
+// 返回 key window 的 rootViewController, 如果它是一个 FlutterViewController
 // Otherwise, returns nil.
 - (FlutterViewController*)rootFlutterViewController {
     UIViewController* viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
@@ -467,7 +467,7 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id>*)
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     [super touchesBegan:touches withEvent:event];
 
-    // Pass status bar taps to key window Flutter rootViewController.
+    // 传递状态栏的点击到 key window 上 Flutter 的 rootViewController
     if (self.rootFlutterViewController != nil) {
         [self.rootFlutterViewController handleStatusBarTouches:event];
     }
