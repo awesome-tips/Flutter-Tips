@@ -1,93 +1,96 @@
-# Dart Awesome Cheat Sheet for Flutter Devs
+---
+title: Flutter 开发者的 Dart 速查表
+---
 
-[![Temidayo Adefioye](https://miro.medium.com/fit/c/48/48/1*EHweqnww2uWcqa7d_90mZg.jpeg)](/@temidjoy?source=post_page-----d8cb52c978e1----------------------)
+原文作者：[![Temidayo Adefioye](https://miro.medium.com/fit/c/48/48/1*EHweqnww2uWcqa7d_90mZg.jpeg)](/@temidjoy?source=post_page-----d8cb52c978e1----------------------)
+翻译：[talisk](https://github.com/talisk)
 
 ![](https://miro.medium.com/max/1766/1*oikrjJQi1b5JTpUM0LsQxw.png)
 
-If you are really interested in cross-platform development, you know about a new kid in a block — Flutter. Google’s new mobile app SDK which allows developers to write beautiful, natively compiled applications for mobile, web, and desktop right from a single codebase. There has been an increasing number of tech companies who have decided to develop their multi-platform apps using flutter framework. As a result, the demand for flutter developers in the tech industry has drastically increased over the past 2 years. In order to meet this demand, it’s essential we have a huge community of passionate flutter devs willing to develop world class apps without any sort of programming barriers.
+如果你的确对跨平台开发感兴趣，你会知道一个名为 Flutter 的新框架。这是一个 Google 开发的全新的移动应用 SDK，开发人员可以通过一份代码直接为移动端、Web 和桌面端编写漂亮的原生应用。越来越多的科技公司决定使用 Flutter 框架开发多个平台的应用程序。在过去两年中，技术行业对开发者的需求急剧增加。为了满足这一需求，我们有一个由富有热情的开发人员组成的庞大社区，他们愿意开发世界一流的应用程序，而不会遇到任何编程障碍，这一点至关重要。
 
-In this article, I will share with you **4 major dart cheats** that will help you quickly get started with flutter development.
+在这篇文章中，我会与你分享**四个主要的 Dart 小窍门**，能够帮助你快速上手 Flutter 开发。
 
-# String interpolation
+# 字符串插值
 
-Every language has its own way of interpolating two or more words or characters. In dart, you can put the value of an expression inside a string as follows:
+每种语言都有自己的插入两个或多个单词或字符的方法。在 dart 中，可以将表达式的值放入字符串中，如下所示：
 
 ``` dart
 int x=6;
 int y=2;
-String sum = '${x+y}';          // result is 8
-String subtraction = '${x-y}';  // result is 4
-String upperCase = '${"hello".toUpperCase()}'; // result is HELLO
-String concatXY = '$x$y'; // result is '62'
+String sum = '${x+y}';          // 结果是 8
+String subtraction = '${x-y}';  // 结果是 4
+String upperCase = '${"hello".toUpperCase()}'; // 结果是 HELLO
+String concatXY = '$x$y'; // 结果是 '62'
 ```
 
-# Functions
+# 方法
 
-Dart lang is an OOL(Object-oriented language). In this language, functions are objects and have a type, Function. This implies that functions can be assigned to variables or passed as args to other functions. Interestingly, you can also call an instance of a class as if it were a function. That’s awesome, right?
+Dart 语言是一种面向对象语言（OOL）。在这种语言中，函数属于对象，具有一个类型，Function。这意味着可以将函数分配给变量或作为参数传递给其他函数。有趣的是，你还可以像调用函数一样调用类的实例。太棒了是吧！
 
 ``` dart
 String fullName() {
     String firstName = "Temidayo";
     String lastName = "Adefioye";
-    return '$firstName $lastName'; // returns 'Temidayo Adefioye'
+    return '$firstName $lastName'; // 返回 'Temidayo Adefioye'
 }
 int length(String text) {
-    return text.length; // returns length of text
+    return text.length; // 返回 text 的长度
 }
 ```
 
-The above function can be rewritten in a more concise way:
+上面的函数可以用更简洁的方式重写：
 
 ``` dart
-    int length(String text) => return text.length; // returns length of text
+    int length(String text) => return text.length; // 返回 text 的长度
 ```
 
-The above approach is applicable where functions contain just ONE expression. This is also referred to as shorthand syntax.
+上述方法适用于函数只包含*一个*表达式的情况。这也被称为速记语法。
 
-# Null-aware Operators
+# Null-aware 运算符
 
-Handling null exceptions in app development is very essential, as this allows you to create a seamless experience for your app users. Dart provides you with some handy operators for dealing with values that might be null. One is the ??= assignment operator, which assigns a value of a variable only if that variable is currently null:
+处理好应用程序开发中的空指针异常非常重要，因为这能让您为用户创建无缝体验。Dart 为处理可能为空的值提供了一些便捷的运算符。一个是 `??=` 赋值运算符，仅当变量当前为空时才赋值：
 
 ``` dart
-int x; // The initial value of any object is null
+int x; // 任何对象的初始值都为空
 x ??=6;
-print(x); // result: 6
+print(x); // 结果是 6
 
 x ??=3;
-print(x); // result is still 6
+print(x); // 结果仍然是 6
 
-print(null ?? 10); // result: 10. Display the value on the left if it's not null else return the value on the right
+print(null ?? 10); // 结果是 10。如果不为空，则显示左侧的值，否则显示右侧的值
 ```
 
-# List Arrays
+# List 数组
 
-Perhaps the most common collection in nearly every programming language is the array or ordered set of objects. Please note that Dart arrays are Lists.
+在几乎每种编程语言中，最常见的集合可能是对象的数组或有序集合。请注意，Dart 的数组是 List。
 
 ``` dart
 var numList = [1,2,3,5,6,7];
 var countryList = ["Nigeria","United States","United Kingdom","Ghana","IreLand","Germany"];
-String numLength = numList.length; // result is 6
-String countryLength = countryList.length; // result is 6
-String countryIndex = countryList[1]; // result is 'United //States'
-String numIndex = numList[0]; // result is 1
+String numLength = numList.length; // 结果是 6
+String countryLength = countryList.length; // 结果是 6
+String countryIndex = countryList[1]; // 结果是 'United //States'
+String numIndex = numList[0]; // 结果是 1
 
-countryList.add("Poland"); // Adds a new item to the list.
+countryList.add("Poland"); // 把一个新项目添加到数组中
 
-var emailList = new List(3); // Set a fixed list size 
-var emailList = new List<String>(); // instance of a list of type //String
+var emailList = new List(3); // 创建一个固定长度数组
+var emailList = new List<String>(); // 数组中实例的类型是 //String
 ```
 
-Would that be all?
+一共就这些吗？
 
 ![](https://miro.medium.com/freeze/max/30/1*uGJysDvESMupwwDUQJJz0A.gif?q=20)
 ![](https://miro.medium.com/max/650/1*uGJysDvESMupwwDUQJJz0A.gif)
 
-No!
+不！
 
-I have carefully curated an awesome cheat sheet for developers who are interested in developing apps using flutter and dart.
+我为那些对使用 Flutter 和 Dart 开发应用感兴趣的开发者精心策划了一个很棒的备忘清单。
 
-You can find this cheat sheet [here](https://github.com/Temidtech/dart-cheat-sheet)
+你可以在[这里]](https://github.com/Temidtech/dart-cheat-sheet)查看清单。
 
-In the coming weeks, the sheet will be updated with more awesome dart cheats.
+在接下来的几周里，清单将更新更多的 Dart 小窍门。
 
-Happy Fluttering!
+祝你写 Flutter 写得开心~
