@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
 
 那么，这里发生了什么？好吧，如果您查看 [**initialRoute** property](https://api.flutter.dev/flutter/material/MaterialApp/initialRoute.html) 属性的文档：
 
-> 如果路由包含斜线，则将其视为 “deep link”，并且在推入此路由前，也会推入通往该路由的路由。例如，如果路由为 `/a/b/c`，则该应用将按顺序加载三个路由 `/a`，`/a/b` 和 `/a/b/c`。
+> 如果路由包含斜线，则将其视为 “deep link”，并且在推入此路由前，也会推入前级路由。例如，如果路由为 `/a/b/c`，则该应用将按顺序加载三个路由 `/a`，`/a/b` 和 `/a/b/c`。
 
 该示例未能按照预期表现，如上所述，第一条推入的路由实际上是 `/`。
 
