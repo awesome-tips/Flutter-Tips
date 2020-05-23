@@ -271,7 +271,18 @@ Text((){
 
 虽然 Text 这里仅允许我们传一个 String，但是我依然可以执行 `print` 方法。
 
-另一个 case 是，如果我们想要仅在 debug 模式下执行某些语句，也可以通过 closure  配合断言来实现，具体可以看我[这篇文章](https://xinlei.dev/2020/04/29/fluent-creates-statements-that-run-only-in-debug-mode/)。
+另一个 case 是，如果我们想要仅在 debug 模式下执行某些语句，也可以通过 closure  配合断言来实现。
+
+ ``` dart
+assert(() {
+   child.owner._debugElementWasRebuilt(child);// execute some code
+   return true;
+}());
+ ```
+
+解释一下，首先 assert 断言仅在 debug 模式下才会开启，所以断言内的内容可以仅在 debug 模式才得以执行。
+
+然后我们知道，Function( ) 调用就会执行，所以这里我们通过匿名闭包 `(){}()` 立刻执行了闭包中的内容，并返回 true 给断言，让它不会挂掉。从而达到了仅在 debug 模式下执行该闭包内的语句。
 
 ### 实现策略模式
 通过 closure 我们可以很方便实现策略模式。
@@ -315,7 +326,7 @@ Flutter 通过 typedef 定义了一种 Function，它接收 `BuildContext` 和 `
 > 同样，ListView 的懒加载（延迟执行）也是闭包很重要的一个特性哦～
 
 ## 牛刀小试
-在学习了 closure 以后，我们来道题检验一下你是否真正理解了吧～
+在学习了 closure 以后，我们来道题检验一下你是否真正理解了吧。
 ``` dart
 main(){
   var counter = Counter(0);
